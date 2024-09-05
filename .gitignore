@@ -350,3 +350,4 @@ MigrationBackup/
 
 #Rider
 .idea
+/src/CF.Api/appsettings.Development.json
