@@ -17,12 +17,10 @@ namespace CF.Migrations.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CardNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Updated = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Surname = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,9 +28,9 @@ namespace CF.Migrations.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_VirtualCard_Email",
+                name: "IX_VirtualCard_CardNumber",
                 table: "VirtualCard",
-                column: "Email",
+                column: "CardNumber",
                 unique: true);
         }
 

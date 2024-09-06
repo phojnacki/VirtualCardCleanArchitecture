@@ -3,9 +3,10 @@
 public class VirtualCard
 {
     public long Id { get; set; }
-    public DateTime Created { get; set; } 
-    public string Email { get; set; } 
+    public DateTime ExpiryDate { get; set; } 
+    public string CardNumber { get; set; } 
     public string FirstName { get; set; }
     public string Surname { get; set; }
-
+    //public decimal Limit { get; set; }
+    //public bool IsActive { get; set; }
 }

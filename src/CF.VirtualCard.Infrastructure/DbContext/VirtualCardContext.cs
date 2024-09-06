@@ -18,11 +18,11 @@ public class VirtualCardContext(DbContextOptions<VirtualCardContext> options)
 
         model.ToTable("VirtualCard");
 
-        model.Property(x => x.Email)
-            .HasMaxLength(100)
+        model.Property(x => x.CardNumber)
+            .HasMaxLength(19)
             .IsRequired();
 
-        model.HasIndex(x => x.Email)
+        model.HasIndex(x => x.CardNumber)
             .IsUnique();
 
         model.Property(x => x.FirstName)

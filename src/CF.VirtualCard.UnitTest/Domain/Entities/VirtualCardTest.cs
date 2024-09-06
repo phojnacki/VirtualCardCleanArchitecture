@@ -8,59 +8,59 @@ public class VirtualCardTest
 {
 
     [Theory]
-    [InlineData("1894@")]
-    [InlineData("aaa@com.   ")]
-    [InlineData("aaa@@.com   ")]
-    [InlineData("aaa   @gmail.com")]
-    [InlineData("aaa   @gmail")]
-    [InlineData("aaa@gmail.com   ")]
-    [InlineData("@gmail.com")]
-    public void InvalidEmailFormatTest(string email)
+    [InlineData("123")]
+    [InlineData("123 123 123 123")]
+    [InlineData("1234 1234 1234")]
+    [InlineData("2345 2354 3456 456")]
+    [InlineData("3456345223413456-")]
+    [InlineData(" 3456345223413456 ")]
+    [InlineData("1234-2345-354-2341")]
+    public void InvalidCardNumberFormatTest(string cardnumber)
     {
         //Arrange
         var virtualCard = new VirtualCard.Domain.Entities.VirtualCard
         {
-            Email = email
+            CardNumber = cardnumber
         };
 
-        const string invalidEmailFormatErrorMessage = "The Email is not a valid e-mail address.";
+        const string invalidCardNumberFormatErrorMessage = "The CardNumber is not a valid e-mail address.";
 
         //Act
-        var exception = Assert.Throws<ValidationException>(virtualCard.ValidateEmail);
+        var exception = Assert.Throws<ValidationException>(virtualCard.ValidateCardNumber);
 
         //Assert
-        Assert.Equal(invalidEmailFormatErrorMessage, exception.Message);
+        Assert.Equal(invalidCardNumberFormatErrorMessage, exception.Message);
     }
 
     [Fact]
-    public void InvalidEmailRequiredTest()
+    public void InvalidCardNumberRequiredTest()
     {
         //Arrange
         var virtualCard = new VirtualCard.Domain.Entities.VirtualCard
         {
-            Email = string.Empty
+            CardNumber = string.Empty
         };
 
-        const string invalidEmailFormatErrorMessage = "The Email is required.";
+        const string invalidCardNumberFormatErrorMessage = "The CardNumber is required.";
 
         //Act
-        var exception = Assert.Throws<ValidationException>(virtualCard.ValidateEmail);
+        var exception = Assert.Throws<ValidationException>(virtualCard.ValidateCardNumber);
 
         //Assert
-        Assert.Equal(invalidEmailFormatErrorMessage, exception.Message);
+        Assert.Equal(invalidCardNumberFormatErrorMessage, exception.Message);
     }
 
     [Fact]
-    public void ValidEmailTest()
+    public void ValidCardNumberTest()
     {
         //Arrange
         var virtualCard = new VirtualCard.Domain.Entities.VirtualCard
         {
-            Email = "valdivia@gmail.com"
+            CardNumber = "3425 3642 7853 4536"
         };
 
         //Act
-        var exception = Record.Exception(virtualCard.ValidateEmail);
+        var exception = Record.Exception(virtualCard.ValidateCardNumber);
 
         //Assert
         Assert.Null(exception);
@@ -112,13 +112,13 @@ public class VirtualCardTest
             FirstName = string.Empty
         };
 
-        const string invalidEmailFormatErrorMessage = "The First Name is required.";
+        const string invalidCardNumberFormatErrorMessage = "The First Name is required.";
 
         //Act
         var exception = Assert.Throws<ValidationException>(virtualCard.ValidateFirstName);
 
         //Assert
-        Assert.Equal(invalidEmailFormatErrorMessage, exception.Message);
+        Assert.Equal(invalidCardNumberFormatErrorMessage, exception.Message);
     }
 
     [Theory]
@@ -167,13 +167,13 @@ public class VirtualCardTest
             Surname = string.Empty
         };
 
-        const string invalidEmailFormatErrorMessage = "The Surname is required.";
+        const string invalidCardNumberFormatErrorMessage = "The Surname is required.";
 
         //Act
         var exception = Assert.Throws<ValidationException>(virtualCard.ValidateSurname);
 
         //Assert
-        Assert.Equal(invalidEmailFormatErrorMessage, exception.Message);
+        Assert.Equal(invalidCardNumberFormatErrorMessage, exception.Message);
     }
 
     [Fact]
@@ -194,17 +194,17 @@ public class VirtualCardTest
     }
 
     [Fact]
-    public void SetCreatedDate()
+    public void SetExpiryDate()
     {
         //Arrange
         var virtualCard = new VirtualCard.Domain.Entities.VirtualCard();
-        var actualDate = DateTime.Now;
+        var expiryDate = DateTime.Now.AddYears(1);
 
         //Act
-        virtualCard.SetCreatedDate();
+        virtualCard.SetExpiryDate();
 
         //Assert
-        Assert.True(virtualCard.Created >= actualDate);
+        Assert.True(virtualCard.ExpiryDate >= expiryDate);
     }
 
 }

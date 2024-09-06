@@ -32,7 +32,7 @@ public class VirtualCardIntegrationTest(CustomWebApplicationFactory factory) : I
 
 
     [Fact]
-    public async Task CreateVirtualCardExistingEmailTestAsync()
+    public async Task CreateVirtualCardExistingCardNumberTestAsync()
     {
         var dto = CreateVirtualCardRequestDto();
         var content = await CreateStringContentAsync(dto);
@@ -46,29 +46,29 @@ public class VirtualCardIntegrationTest(CustomWebApplicationFactory factory) : I
         Assert.NotNull(errors);
         Assert.Contains("Validation", errors);
         Assert.Single(errors["Validation"]);
-        Assert.Equal("Email is not available.", errors["Validation"][0]);
+        Assert.Equal("CardNumber is not available.", errors["Validation"][0]);
         Assert.Equal(HttpStatusCode.BadRequest, responseNotOk.StatusCode);
     }
 
     [Theory]
-    [InlineData("invalid_email_at_test.com", "The Email field is not a valid email address.")]
-    [InlineData("", "The Email field is required.")]
+    [InlineData("invalid_cardnumber", "The CardNumber field is not a valid cardnumber.")]
+    [InlineData("", "The CardNumber field is required.")]
     [InlineData(
-        "eeeeeeeeeewedewfdwefweeemmmmmmmmaaaaaaaaaaaaaaiiiiiiiiiiiilllllllllll@teeeeeeesssssssssssssstttttttttttttttt.com",
-        "The Email field must not exceed 100 characters.")]
-    public async Task CreateVirtualCardAsync_Email_Validation_Test(string email, string errorMessage)
+        "1233213454567645432424234423432423423",
+        "The CardNumber field must not exceed 19 characters.")]
+    public async Task CreateVirtualCardAsync_CardNumber_Validation_Test(string cardnumber, string errorMessage)
     {
         var dto = CreateVirtualCardRequestDto();
-        dto.Email = email;
+        dto.CardNumber = cardnumber;
 
         var content = await CreateStringContentAsync(dto);
         var response = await _httpClient.PostAsync(VirtualCardUrl, content);
         var errors = await ExtractErrorsFromResponse(response);
 
         Assert.NotNull(errors);
-        Assert.Contains("Email", errors);
-        Assert.NotEmpty(errors["Email"]);
-        Assert.Equal(errorMessage, errors["Email"][0]);
+        Assert.Contains("CardNumber", errors);
+        Assert.NotEmpty(errors["CardNumber"]);
+        Assert.Equal(errorMessage, errors["CardNumber"][0]);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 
@@ -157,29 +157,29 @@ public class VirtualCardIntegrationTest(CustomWebApplicationFactory factory) : I
     }
 
     [Fact]
-    public async Task UpdateVirtualCardExistingEmailTestAsync()
+    public async Task UpdateVirtualCardExistingCardNumberTestAsync()
     {
         var dto = CreateVirtualCardRequestDto();
-        var virtualCardOneEmail = dto.Email;
+        var virtualCardOneCardNumber = dto.CardNumber;
 
         var contentVirtualCardOne = await CreateStringContentAsync(dto);
         var createVirtualCardOneResponse = await _httpClient.PostAsync(VirtualCardUrl, contentVirtualCardOne);
         Assert.Equal(HttpStatusCode.Created, createVirtualCardOneResponse.StatusCode);
 
-        dto.Email = $"new_{virtualCardOneEmail}";
+        dto.CardNumber = $"new_{virtualCardOneCardNumber}";
 
         var contentVirtualCardTwo = await CreateStringContentAsync(dto);
         var createVirtualCardTwoResponse = await _httpClient.PostAsync(VirtualCardUrl, contentVirtualCardTwo);
         Assert.Equal(HttpStatusCode.Created, createVirtualCardTwoResponse.StatusCode);
 
-        var parameters = new Dictionary<string, string> { { "email", dto.Email } };
+        var parameters = new Dictionary<string, string> { { "cardnumber", dto.CardNumber } };
         var requestUri = QueryHelpers.AddQueryString(VirtualCardUrl, parameters);
         var getResponse = await _httpClient.GetAsync(requestUri);
         Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
         var virtualCard =
             JsonConvert.DeserializeObject<VirtualCardResponseDto>(await getResponse.Content.ReadAsStringAsync());
 
-        dto.Email = virtualCardOneEmail;
+        dto.CardNumber = virtualCardOneCardNumber;
         var content = await CreateStringContentAsync(dto);
         var response = await _httpClient.PutAsync($"{VirtualCardUrl}/{virtualCard.Id}", content);
 
@@ -239,7 +239,7 @@ public class VirtualCardIntegrationTest(CustomWebApplicationFactory factory) : I
         var response = await _httpClient.PostAsync(VirtualCardUrl, content);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        dto.Email = $"new_{dto.Email}";
+        dto.CardNumber = $"new_{dto.CardNumber}";
         var contentTwo = await CreateStringContentAsync(dto);
         var responseTwo = await _httpClient.PostAsync(VirtualCardUrl, contentTwo);
         Assert.Equal(HttpStatusCode.Created, responseTwo.StatusCode);
@@ -295,7 +295,7 @@ public class VirtualCardIntegrationTest(CustomWebApplicationFactory factory) : I
         {
             FirstName = "Test Name",
             Surname = "Test Surname",
-            Email = $"{DateTime.Now:yyyyMMdd_hhmmssfff}@test.com"
+            CardNumber = "1234-2345-3455-4567"
         };
     }
 

@@ -10,18 +10,18 @@ public static partial class VirtualCardExtensions
         return $"{virtualCard.FirstName} {virtualCard.Surname}";
     }
 
-    public static void SetCreatedDate(this VirtualCard virtualCard)
+    public static void SetExpiryDate(this VirtualCard virtualCard)
     {
-        virtualCard.Created = DateTime.Now;
+        virtualCard.ExpiryDate = DateTime.Now.AddYears(1);
     }
 
-    public static void ValidateEmail(this VirtualCard virtualCard)
+    public static void ValidateCardNumber(this VirtualCard virtualCard)
     {
-        if (string.IsNullOrEmpty(virtualCard.Email))
-            throw new ValidationException("The Email is required.");
+        if (string.IsNullOrEmpty(virtualCard.CardNumber))
+            throw new ValidationException("The CardNumber is required.");
 
-        if (!EmailValidatorRegex().IsMatch(virtualCard.Email))
-            throw new ValidationException("The Email is not a valid e-mail address.");
+        if (!CardNumberValidatorRegex().IsMatch(virtualCard.CardNumber))
+            throw new ValidationException("The CardNumber contains not valid digits separated by spaces and dashes.");
     }
 
     public static void ValidateSurname(this VirtualCard virtualCard)
@@ -44,6 +44,6 @@ public static partial class VirtualCardExtensions
                 "The First Name must be a string with a minimum length of 2 and a maximum length of 100.");
     }
 
-    [GeneratedRegex(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex EmailValidatorRegex();
+    [GeneratedRegex(@"^(?:\d[ -]*?){13,19}$")]
+    private static partial Regex CardNumberValidatorRegex();
 }

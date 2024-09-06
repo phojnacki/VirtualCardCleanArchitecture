@@ -92,13 +92,13 @@ public class VirtualCardServiceTest
     }
 
     [Theory]
-    [InlineData("invalid_email")]
+    [InlineData("invalid_cardnumber")]
     [InlineData("")]
-    public async Task CreateAsync_InvalidEmail_ThrowsValidationException(string email)
+    public async Task CreateAsync_InvalidCardNumber_ThrowsValidationException(string cardnumber)
     {
         // Arrange
         var virtualCard = CreateVirtualCard();
-        virtualCard.Email = email;
+        virtualCard.CardNumber = cardnumber;
         var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act & Assert
@@ -173,7 +173,7 @@ public class VirtualCardServiceTest
     }
 
     [Fact]
-    public async Task IsAvailableEmailTestAsync()
+    public async Task IsAvailableCardNumberTestAsync()
     {
         // Arrange
         var virtualCard = CreateVirtualCard();
@@ -184,40 +184,40 @@ public class VirtualCardServiceTest
         var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act
-        var existingEmail = await virtualCardService.IsAvailableEmailAsync(virtualCard.Email, _cancellationTokenSource.Token);
+        var existingCardNumber = await virtualCardService.IsAvailableCardNumberAsync(virtualCard.CardNumber, _cancellationTokenSource.Token);
 
         // Assert
-        Assert.True(existingEmail);
+        Assert.True(existingCardNumber);
     }
 
     [Fact]
-    public async Task IsNotAvailableEmailTestAsync()
+    public async Task IsNotAvailableCardNumberTestAsync()
     {
         // Arrange
         var virtualCard = CreateVirtualCard();
 
-        var filter = new VirtualCardFilter { Email = virtualCard.Email };
+        var filter = new VirtualCardFilter { CardNumber = virtualCard.CardNumber };
         _mockRepository.Setup(x => x.GetByFilterAsync(filter, _cancellationTokenSource.Token))
             .ReturnsAsync(virtualCard);
 
         var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act
-        var existingEmail = await virtualCardService.IsAvailableEmailAsync(virtualCard.Email, _cancellationTokenSource.Token);
+        var existingCardNumber = await virtualCardService.IsAvailableCardNumberAsync(virtualCard.CardNumber, _cancellationTokenSource.Token);
 
         // Assert
-        Assert.True(existingEmail);
+        Assert.True(existingCardNumber);
     }
 
-    private static VirtualCard.Domain.Entities.VirtualCard CreateVirtualCard(int id = 1, string email = "test1@test.com")
+    private static VirtualCard.Domain.Entities.VirtualCard CreateVirtualCard(int id = 1, string cardnumber = "test1@test.com")
     {
         return new VirtualCard.Domain.Entities.VirtualCard
         {
             Id = id,
-            Email = email,
+            CardNumber = cardnumber,
             Surname = "Surname",
             FirstName = "FirstName",
-            Created = DateTime.Now
+            ExpiryDate = DateTime.Now
         };
     }
 }

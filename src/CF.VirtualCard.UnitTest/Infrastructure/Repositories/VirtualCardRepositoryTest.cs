@@ -25,7 +25,7 @@ public class VirtualCardRepositoryTest
         //Arrange
         var virtualCardOne = CreateVirtualCard();
         var virtualCardTwo = CreateVirtualCard();
-        virtualCardTwo.Email = "email2@test.com";
+        virtualCardTwo.CardNumber = "cardnumber2@test.com";
 
         //Act
         var repository = new VirtualCardRepository(context);
@@ -55,13 +55,13 @@ public class VirtualCardRepositoryTest
         repository.Add(virtualCardOne);
         await repository.SaveChangesAsync(_cancellationTokenSource.Token);
 
-        var filter = new VirtualCardFilter { Email = "test1@test.com" };
+        var filter = new VirtualCardFilter { CardNumber = "test1@test.com" };
 
         //Act
         var result = await repository.GetByFilterAsync(filter, _cancellationTokenSource.Token);
 
         //Assert
-        Assert.Equal("test1@test.com", result.Email);
+        Assert.Equal("test1@test.com", result.CardNumber);
     }
 
     [Fact]
@@ -113,7 +113,7 @@ public class VirtualCardRepositoryTest
     }
 
     [Fact]
-    public async Task DuplicatedEmailTestAsync()
+    public async Task DuplicatedCardNumberTestAsync()
     {
         await using var connection = await CreateAndOpenSqliteConnectionAsync();
         var options = await SetDbContextOptionsBuilderAsync(connection);
@@ -138,7 +138,7 @@ public class VirtualCardRepositoryTest
     }
 
     [Fact]
-    public async Task CreateInvalidEmailTestAsync()
+    public async Task CreateInvalidCardNumberTestAsync()
     {
         await using var connection = await CreateAndOpenSqliteConnectionAsync();
         var options = await SetDbContextOptionsBuilderAsync(connection);
@@ -148,7 +148,7 @@ public class VirtualCardRepositoryTest
 
         //Arrange
         var virtualCard = CreateVirtualCard();
-        virtualCard.Email = null;
+        virtualCard.CardNumber = null;
 
         var repository = new VirtualCardRepository(context);
         repository.Add(virtualCard);
@@ -220,10 +220,10 @@ public class VirtualCardRepositoryTest
     {
         return new VirtualCard.Domain.Entities.VirtualCard
         {
-            Email = "test1@test.com",
+            CardNumber = "test1@test.com",
             Surname = "Surname1",
             FirstName = "FirstName1",
-            Created = DateTime.Now
+            ExpiryDate = DateTime.Now
         };
     }
 

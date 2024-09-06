@@ -53,9 +53,9 @@ public class VirtualCardRepository(VirtualCardContext context)
             "surname" => filter.SortBy.Equals("asc", StringComparison.CurrentCultureIgnoreCase)
                 ? query.OrderBy(x => x.Surname)
                 : query.OrderByDescending(x => x.Surname),
-            "email" => filter.SortBy.Equals("asc", StringComparison.CurrentCultureIgnoreCase)
-                ? query.OrderBy(x => x.Email)
-                : query.OrderByDescending(x => x.Email),
+            "cardnumber" => filter.SortBy.Equals("asc", StringComparison.CurrentCultureIgnoreCase)
+                ? query.OrderBy(x => x.CardNumber)
+                : query.OrderByDescending(x => x.CardNumber),
             _ => query
         };
 
@@ -74,8 +74,8 @@ public class VirtualCardRepository(VirtualCardContext context)
         if (!string.IsNullOrWhiteSpace(filter.Surname))
             query = query.Where(x => EF.Functions.Like(x.Surname, $"%{filter.Surname}%"));
 
-        if (!string.IsNullOrWhiteSpace(filter.Email))
-            query = query.Where(x => x.Email == filter.Email);
+        if (!string.IsNullOrWhiteSpace(filter.CardNumber))
+            query = query.Where(x => x.CardNumber == filter.CardNumber);
 
         return query;
     }

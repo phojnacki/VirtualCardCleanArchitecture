@@ -37,14 +37,10 @@ builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Le
 builder.Services.AddResponseCompression(options => { options.Providers.Add<GzipCompressionProvider>(); });
 builder.Services.AddDbContext<VirtualCardContext>(options =>
 {
-	var dbUser = Environment.GetEnvironmentVariable("ENV_DB_USER");
-	var dbPassword = Environment.GetEnvironmentVariable("ENV_DB_PASSWORD");
-	var dbServer = Environment.GetEnvironmentVariable("ENV_DB_SERVER");
-
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")
-        .Replace("ENV_DB_USER", dbUser)
-		.Replace("ENV_DB_SERVER", dbServer)
-		.Replace("ENV_DB_PASSWORD", dbPassword),
+        .Replace("ENV_DB_USER", Environment.GetEnvironmentVariable("ENV_DB_USER"))
+		.Replace("ENV_DB_SERVER", Environment.GetEnvironmentVariable("ENV_DB_SERVER"))
+		.Replace("ENV_DB_PASSWORD", Environment.GetEnvironmentVariable("ENV_DB_PASSWORD")),
       a => { a.MigrationsAssembly("CF.Migrations"); });
 });
 
@@ -73,7 +69,7 @@ void AddExceptionHandler()
 void AddSwagger()
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CF Api"));
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "VirtualCard Api"));
 }
 
 void AddNLog()
@@ -86,7 +82,7 @@ Action<SwaggerGenOptions> SetupSwagger()
 {
     return c =>
     {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "CF API", Version = "v1" });
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "VirtualCard API", Version = "v1" });
 
         c.CustomSchemaIds(x => x.FullName);
 

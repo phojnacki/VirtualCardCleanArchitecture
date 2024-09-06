@@ -57,10 +57,10 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
 
         Validate(virtualCard);
 
-        if (entity.Email != virtualCard.Email && !await IsAvailableEmailAsync(virtualCard.Email, cancellationToken))
-            throw new ValidationException("Email is not available.");
+        if (entity.CardNumber != virtualCard.CardNumber && !await IsAvailableCardNumberAsync(virtualCard.CardNumber, cancellationToken))
+            throw new ValidationException("CardNumber is not available.");
 
-        entity.Email = virtualCard.Email;
+        entity.CardNumber = virtualCard.CardNumber;
         entity.FirstName = virtualCard.FirstName;
         entity.Surname = virtualCard.Surname;
 
@@ -74,10 +74,10 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
 
         Validate(virtualCard);
 
-        var isAvailableEmail = await IsAvailableEmailAsync(virtualCard.Email, cancellationToken);
-        if (!isAvailableEmail) throw new ValidationException("Email is not available.");
+        var isAvailableCardNumber = await IsAvailableCardNumberAsync(virtualCard.CardNumber, cancellationToken);
+        if (!isAvailableCardNumber) throw new ValidationException("CardNumber is not available.");
 
-        virtualCard.SetCreatedDate();
+        virtualCard.SetExpiryDate();
         virtualCardRepository.Add(virtualCard);
         await virtualCardRepository.SaveChangesAsync(cancellationToken);
 
@@ -94,11 +94,11 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
         await virtualCardRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<bool> IsAvailableEmailAsync(string email, CancellationToken cancellationToken)
+    public async Task<bool> IsAvailableCardNumberAsync(string cardnumber, CancellationToken cancellationToken)
     {
-        var filter = new VirtualCardFilter { Email = email };
-        var existingEmail = await virtualCardRepository.GetByFilterAsync(filter, cancellationToken);
-        return existingEmail is null;
+        var filter = new VirtualCardFilter { CardNumber = cardnumber };
+        var existingCardNumber = await virtualCardRepository.GetByFilterAsync(filter, cancellationToken);
+        return existingCardNumber is null;
     }
 
     private static void Validate(Entities.VirtualCard virtualCard)
@@ -107,7 +107,7 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
 
         virtualCard.ValidateSurname();
 
-        virtualCard.ValidateEmail();
+        virtualCard.ValidateCardNumber();
 
     }
 }

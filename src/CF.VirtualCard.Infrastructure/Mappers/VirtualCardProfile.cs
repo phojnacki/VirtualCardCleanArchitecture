@@ -16,7 +16,7 @@ public class VirtualCardProfile : Profile
     {
         CreateMap<VirtualCardRequestDto, Domain.Entities.VirtualCard>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.Created, opt => opt.Ignore());
+            .ForMember(dest => dest.ExpiryDate, opt => opt.Ignore());
 
         CreateMap<Domain.Entities.VirtualCard, VirtualCardResponseDto>()
             .ForMember(dest => dest.FullName, opt => opt.Ignore())

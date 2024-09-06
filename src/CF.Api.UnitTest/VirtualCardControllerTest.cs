@@ -37,7 +37,7 @@ public class VirtualCardControllerTest
             [
                 new VirtualCardResponseDto
                 {
-                    Email = "tarnished@test.com",
+                    CardNumber = "1234-1234-1234-1234",
                     FirstName = "Elden",
                     Surname = "Ring",
                     FullName = "Elden Ring",
@@ -45,7 +45,7 @@ public class VirtualCardControllerTest
                 },
                 new VirtualCardResponseDto
                 {
-                    Email = "nameless_king@test.com",
+                    CardNumber = "1234-1234-1234-1235",
                     FirstName = "Elden",
                     Surname = "King",
                     FullName = "Elden King",
@@ -80,7 +80,7 @@ public class VirtualCardControllerTest
         //Arrange
         var facadeResult = new VirtualCardResponseDto
         {
-            Email = "tarnished@test.com",
+            CardNumber = "1234-1234-1234-1236",
             FirstName = "Elden",
             Surname = "Ring",
             FullName = "Elden Ring",
@@ -98,7 +98,7 @@ public class VirtualCardControllerTest
         //Assert
         Assert.NotNull(actionResult);
         Assert.Equal(1, actionResult.Value?.Id);
-        Assert.Equal("tarnished@test.com", actionResult.Value?.Email);
+        Assert.Equal("1234-1234-1234-1238", actionResult.Value?.CardNumber);
     }
 
     [Fact]
@@ -112,7 +112,7 @@ public class VirtualCardControllerTest
 
         var requestDto = new VirtualCardRequestDto
         {
-            Email = "chosen_one@test.com",
+            CardNumber = "1234-1234-1234-1239",
             FirstName = "Dark",
             Surname = "Souls"
         };
@@ -135,7 +135,7 @@ public class VirtualCardControllerTest
 
         var requestDto = new VirtualCardRequestDto
         {
-            Email = "chosen_one@test.com",
+            CardNumber = "1234-1234-1234-1231",
             FirstName = "Dark",
             Surname = "Souls"
         };

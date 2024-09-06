@@ -10,10 +10,10 @@ public class VirtualCardSeed
     {
         await dbContext.VirtualCards.AddAsync(new VirtualCard.Domain.Entities.VirtualCard
         {
-            Email = "seed.record@test.com",
+            CardNumber = "1234-1234-1234-1232",
             FirstName = "Seed",
             Surname = "Seed",
-            Created = DateTime.Now
+            ExpiryDate = DateTime.Now
         });
 
         await dbContext.SaveChangesAsync();

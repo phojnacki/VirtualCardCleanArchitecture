@@ -20,7 +20,7 @@ public class VirtualCardProfileTest
         {
             Surname = "Dickinson",
             FirstName = "Bruce",
-            Email = "maiden@metal.com"
+            CardNumber = "maiden@metal.com"
         };
 
         var mapper = MapperConfiguration.CreateMapper();
@@ -31,7 +31,7 @@ public class VirtualCardProfileTest
         //Assert
         Assert.Equal(virtualCardRequestDto.FirstName, virtualCard.FirstName);
         Assert.Equal(virtualCardRequestDto.Surname, virtualCard.Surname);
-        Assert.Equal(virtualCardRequestDto.Email, virtualCard.Email);
+        Assert.Equal(virtualCardRequestDto.CardNumber, virtualCard.CardNumber);
     }
 
     [Fact]
@@ -42,8 +42,8 @@ public class VirtualCardProfileTest
         {
             Surname = "Dickinson",
             FirstName = "Bruce",
-            Email = "maiden@metal.com",
-            Created = DateTime.Now,
+            CardNumber = "maiden@metal.com",
+            ExpiryDate = DateTime.Now,
             Id = 1
         };
 
@@ -55,7 +55,7 @@ public class VirtualCardProfileTest
         //Arrange
         Assert.Equal(virtualCard.FirstName, virtualCardResponseDto.FirstName);
         Assert.Equal(virtualCard.Surname, virtualCardResponseDto.Surname);
-        Assert.Equal(virtualCard.Email, virtualCardResponseDto.Email);
+        Assert.Equal(virtualCard.CardNumber, virtualCardResponseDto.CardNumber);
         Assert.Equal(virtualCard.Id, virtualCardResponseDto.Id);
         Assert.Equal(virtualCard.GetFullName(), virtualCardResponseDto.FullName);
     }
@@ -70,8 +70,8 @@ public class VirtualCardProfileTest
             {
                 Surname = "Dickinson",
                 FirstName = "Bruce",
-                Email = "maiden@metal.com",
-                Created = DateTime.Now,
+                CardNumber = "maiden@metal.com",
+                ExpiryDate = DateTime.Now,
                 Id = 1
             }
         };
@@ -93,7 +93,7 @@ public class VirtualCardProfileTest
         //Assert
         Assert.Equal(virtualCardList.First().FirstName, virtualCardResponseDtoList.First().FirstName);
         Assert.Equal(virtualCardList.First().Surname, virtualCardResponseDtoList.First().Surname);
-        Assert.Equal(virtualCardList.First().Email, virtualCardResponseDtoList.First().Email);
+        Assert.Equal(virtualCardList.First().CardNumber, virtualCardResponseDtoList.First().CardNumber);
         Assert.Equal(virtualCardList.First().Id, virtualCardResponseDtoList.First().Id);
         Assert.Equal(virtualCardList.First().GetFullName(), virtualCardResponseDtoList.First().FullName);
         Assert.Equal(1, virtualCardResponseDtoPagination.TotalPages);
@@ -107,7 +107,7 @@ public class VirtualCardProfileTest
         {
             Surname = "Dickinson",
             FirstName = "Bruce",
-            Email = "maiden@metal.com",
+            CardNumber = "maiden@metal.com",
             Id = 1,
             CurrentPage = 1,
             PageSize = 1,
@@ -124,7 +124,7 @@ public class VirtualCardProfileTest
         Assert.Equal(virtualCardFilterDto.FirstName, virtualCardFilter.FirstName);
         Assert.Equal(virtualCardFilterDto.Surname, virtualCardFilter.Surname);
         Assert.Equal(virtualCardFilterDto.Id, virtualCardFilter.Id);
-        Assert.Equal(virtualCardFilterDto.Email, virtualCardFilter.Email);
+        Assert.Equal(virtualCardFilterDto.CardNumber, virtualCardFilter.CardNumber);
         Assert.Equal(virtualCardFilterDto.CurrentPage, virtualCardFilter.CurrentPage);
         Assert.Equal(virtualCardFilterDto.OrderBy, virtualCardFilter.OrderBy);
         Assert.Equal(virtualCardFilterDto.PageSize, virtualCardFilter.PageSize);

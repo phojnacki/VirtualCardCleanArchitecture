@@ -162,7 +162,7 @@ public class VirtualCardFacadeTest
     {
         return new VirtualCardRequestDto
         {
-            Email = "test1@test.com",
+            CardNumber = "2345-1234-2345-3456",
             Surname = "Surname",
             FirstName = "First Name"
         };
@@ -173,7 +173,7 @@ public class VirtualCardFacadeTest
         return new VirtualCard.Domain.Entities.VirtualCard
         {
             Id = id,
-            Email = "test1@test.com",
+            CardNumber = "2345-1234-2345-3456",
             Surname = "Surname",
             FirstName = "First Name"
         };
@@ -184,7 +184,7 @@ public class VirtualCardFacadeTest
         return new VirtualCardResponseDto
         {
             Id = id,
-            Email = "test1@test.com",
+            CardNumber = "2345-1234-2345-3456",
             Surname = "Surname",
             FirstName = "First Name",
             FullName = "First Name Surname"

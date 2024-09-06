@@ -4,11 +4,10 @@ namespace CF.VirtualCard.Application.Dtos;
 
 public record VirtualCardRequestDto
 {
-    [Required(ErrorMessage = "The Email field is required.")]
-    [EmailAddress(ErrorMessage = "The Email field is not a valid email address.")]
-    [MaxLength(100, ErrorMessage = "The Email field must not exceed 100 characters.")]
-    [Display(Name = "Email")]
-    public string Email { get; set; }
+    [Required(ErrorMessage = "The CardNumber field is required.")]
+	[StringLength(19, MinimumLength = 16, ErrorMessage = "The CardNumber field must be between 16 and 19 characters.")]
+	[Display(Name = "CardNumber")]
+    public string CardNumber { get; set; }
 
     [Required(ErrorMessage = "The First Name field is required.")]
     [StringLength(100, MinimumLength = 2, ErrorMessage = "The First Name field must be between 2 and 100 characters.")]
