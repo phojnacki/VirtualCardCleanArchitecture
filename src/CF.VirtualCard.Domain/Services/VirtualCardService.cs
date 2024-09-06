@@ -6,7 +6,7 @@ using CF.VirtualCard.Domain.Services.Interfaces;
 
 namespace CF.VirtualCard.Domain.Services;
 
-public class VirtualCardService(IVirtualCardRepository virtualCardRepository, IPasswordHasherService passwordHasherService)
+public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
     : IVirtualCardService
 {
     public async Task<Pagination<Entities.VirtualCard>> GetListByFilterAsync(VirtualCardFilter filter,
@@ -64,10 +64,6 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository, IP
         entity.FirstName = virtualCard.FirstName;
         entity.Surname = virtualCard.Surname;
 
-        if (!await passwordHasherService.VerifyAsync(virtualCard.Password, entity.Password))
-            entity.Password = await passwordHasherService.HashAsync(virtualCard.Password);
-
-        entity.SetUpdatedDate();
         await virtualCardRepository.SaveChangesAsync(cancellationToken);
     }
 
@@ -81,7 +77,6 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository, IP
         var isAvailableEmail = await IsAvailableEmailAsync(virtualCard.Email, cancellationToken);
         if (!isAvailableEmail) throw new ValidationException("Email is not available.");
 
-        virtualCard.Password = await passwordHasherService.HashAsync(virtualCard.Password);
         virtualCard.SetCreatedDate();
         virtualCardRepository.Add(virtualCard);
         await virtualCardRepository.SaveChangesAsync(cancellationToken);
@@ -114,6 +109,5 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository, IP
 
         virtualCard.ValidateEmail();
 
-        virtualCard.ValidatePassword();
     }
 }

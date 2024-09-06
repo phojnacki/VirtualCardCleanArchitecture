@@ -30,7 +30,6 @@ builder.Services.AddDefaultCorrelationId(ConfigureCorrelationId());
 builder.Services.AddTransient<IVirtualCardFacade, VirtualCardFacade>();
 builder.Services.AddTransient<IVirtualCardService, VirtualCardService>();
 builder.Services.AddTransient<IVirtualCardRepository, VirtualCardRepository>();
-builder.Services.AddTransient<IPasswordHasherService, PasswordHasherService>();
 builder.Services.AddAutoMapper(typeof(VirtualCardProfile));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(SetupSwagger());

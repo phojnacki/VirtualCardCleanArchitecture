@@ -112,8 +112,6 @@ public class VirtualCardControllerTest
 
         var requestDto = new VirtualCardRequestDto
         {
-            ConfirmPassword = "123DarkSouls!",
-            Password = "123DarkSouls!",
             Email = "chosen_one@test.com",
             FirstName = "Dark",
             Surname = "Souls"
@@ -137,8 +135,6 @@ public class VirtualCardControllerTest
 
         var requestDto = new VirtualCardRequestDto
         {
-            ConfirmPassword = "123DarkSouls!",
-            Password = "123DarkSouls!",
             Email = "chosen_one@test.com",
             FirstName = "Dark",
             Surname = "Souls"

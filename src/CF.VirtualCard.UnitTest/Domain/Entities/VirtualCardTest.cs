@@ -6,53 +6,6 @@ namespace CF.VirtualCard.UnitTest.Domain.Entities;
 
 public class VirtualCardTest
 {
-    [Theory]
-    [InlineData("1894")]
-    [InlineData("AA189412")]
-    [InlineData("AABCSSDSD")]
-    [InlineData("wedededwe")]
-    [InlineData("wedeAAAAA")]
-    [InlineData("aa189412")]
-    [InlineData("@@189412")]
-    [InlineData("@abcdefg")]
-    [InlineData("@AASDFEF")]
-    [InlineData("12345678")]
-    [InlineData("@@@!@!@!@")]
-    [InlineData("1123@aA")]
-    [InlineData("1123aaswdewwpfomwfpo4")]
-    public void InvalidPasswordRequirementsTest(string password)
-    {
-        // Arrange
-        var virtualCard = new VirtualCard.Domain.Entities.VirtualCard
-        {
-            Password = password
-        };
-
-        const string invalidPasswordErrorMessage =
-            "Password must be at least 8 characters and contain at 3 of the following: upper case (A-Z), lower case (a-z), number (0-9) and special character (e.g. !@#$%^&*).";
-
-        // Act
-        var exception = Assert.Throws<ValidationException>(virtualCard.ValidatePassword);
-
-        // Assert
-        Assert.Equal(invalidPasswordErrorMessage, exception.Message);
-    }
-
-    [Fact]
-    public void ValidPasswordRequirementsTest()
-    {
-        //Arrange
-        var virtualCard = new VirtualCard.Domain.Entities.VirtualCard
-        {
-            Password = "P@ssWord1"
-        };
-
-        //Act
-        var exception = Record.Exception(virtualCard.ValidatePassword);
-
-        //Assert
-        Assert.Null(exception);
-    }
 
     [Theory]
     [InlineData("1894@")]
@@ -254,16 +207,4 @@ public class VirtualCardTest
         Assert.True(virtualCard.Created >= actualDate);
     }
 
-    [Fact]
-    public void SetUpdatedDate()
-    {
-        //Arrange
-        var virtualCard = new VirtualCard.Domain.Entities.VirtualCard();
-
-        //Act
-        virtualCard.SetUpdatedDate();
-
-        //Assert
-        Assert.NotNull(virtualCard.Updated);
-    }
 }

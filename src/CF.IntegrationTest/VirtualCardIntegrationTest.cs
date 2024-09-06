@@ -114,46 +114,6 @@ public class VirtualCardIntegrationTest(CustomWebApplicationFactory factory) : I
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 
-    [Theory]
-    [InlineData("", "The Password field is required.")]
-    [InlineData("@123RF",
-        "Passwords must be at least 8 characters and contain at least 3 of the following: upper case (A-Z), lower case (a-z), number (0-9), and special character (e.g. !@#$%^&*).")]
-    [InlineData("01234567901234",
-        "Passwords must be at least 8 characters and contain at least 3 of the following: upper case (A-Z), lower case (a-z), number (0-9), and special character (e.g. !@#$%^&*).")]
-    public async Task CreateVirtualCardAsync_Password_Validation_Test(string password, string errorMessage)
-    {
-        var dto = CreateVirtualCardRequestDto();
-        dto.Password = password;
-
-        var content = await CreateStringContentAsync(dto);
-        var response = await _httpClient.PostAsync(VirtualCardUrl, content);
-        var errors = await ExtractErrorsFromResponse(response);
-
-        Assert.NotNull(errors);
-        Assert.Contains("Password", errors);
-        Assert.NotEmpty(errors["Password"]);
-        Assert.Equal(errorMessage, errors["Password"][0]);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task CreateVirtualCardAsync_ConfirmPassword_Validation_Test()
-    {
-        var dto = CreateVirtualCardRequestDto();
-        dto.ConfirmPassword = "Password3!";
-
-        var content = await CreateStringContentAsync(dto);
-        var response = await _httpClient.PostAsync(VirtualCardUrl, content);
-
-        var errors = await ExtractErrorsFromResponse(response);
-
-        Assert.NotNull(errors);
-        Assert.Contains("ConfirmPassword", errors);
-        Assert.NotEmpty(errors["ConfirmPassword"]);
-        Assert.Equal("The passwords do not match.", errors["ConfirmPassword"][0]);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-    }
-
     [Fact]
     public async Task UpdateVirtualCardOkTestAsync()
     {
@@ -190,8 +150,6 @@ public class VirtualCardIntegrationTest(CustomWebApplicationFactory factory) : I
             JsonConvert.DeserializeObject<VirtualCardResponseDto>(await getResponse.Content.ReadAsStringAsync());
 
         dto.FirstName = "New Name";
-        dto.Password = "NewPassword3@";
-        dto.ConfirmPassword = "NewPassword3@";
         var contentUpdate = await CreateStringContentAsync(dto);
         var putResponse = await _httpClient.PutAsync($"{VirtualCardUrl}/{virtualCard.Id}", contentUpdate);
         Assert.True(putResponse.IsSuccessStatusCode);
@@ -337,9 +295,7 @@ public class VirtualCardIntegrationTest(CustomWebApplicationFactory factory) : I
         {
             FirstName = "Test Name",
             Surname = "Test Surname",
-            Email = $"{DateTime.Now:yyyyMMdd_hhmmssfff}@test.com",
-            Password = "Password1@",
-            ConfirmPassword = "Password1@"
+            Email = $"{DateTime.Now:yyyyMMdd_hhmmssfff}@test.com"
         };
     }
 

@@ -11,7 +11,6 @@ namespace CF.VirtualCard.UnitTest.Domain.Services;
 public class VirtualCardServiceTest
 {
     private readonly CancellationTokenSource _cancellationTokenSource = new();
-    private readonly Mock<IPasswordHasherService> _mockPassword = new();
     private readonly Mock<IVirtualCardRepository> _mockRepository = new();
 
     [Fact]
@@ -22,7 +21,7 @@ public class VirtualCardServiceTest
 
         _mockRepository.Setup(x => x.GetByFilterAsync(It.IsAny<VirtualCardFilter>(), _cancellationTokenSource.Token))
             .ReturnsAsync(virtualCard);
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act
         var result =
@@ -51,7 +50,7 @@ public class VirtualCardServiceTest
             .ReturnsAsync(virtualCards.Count);
         _mockRepository.Setup(x => x.GetListByFilterAsync(It.IsAny<VirtualCardFilter>(), _cancellationTokenSource.Token))
             .ReturnsAsync(virtualCards);
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
         var result = await virtualCardService.GetListByFilterAsync(filter, _cancellationTokenSource.Token);
 
         // Assert
@@ -68,7 +67,7 @@ public class VirtualCardServiceTest
         // Arrange
         var virtualCard = CreateVirtualCard(id);
         virtualCard.FirstName = firstName;
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<ValidationException>(() =>
@@ -85,7 +84,7 @@ public class VirtualCardServiceTest
         // Arrange
         var virtualCard = CreateVirtualCard();
         virtualCard.Surname = surname;
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<ValidationException>(() =>
@@ -100,28 +99,12 @@ public class VirtualCardServiceTest
         // Arrange
         var virtualCard = CreateVirtualCard();
         virtualCard.Email = email;
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<ValidationException>(() =>
             virtualCardService.CreateAsync(virtualCard, _cancellationTokenSource.Token));
     }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData("P@01")]
-    public async Task CreateAsync_InvalidPassword_ThrowsValidationException(string password)
-    {
-        // Arrange
-        var virtualCard = CreateVirtualCard();
-        virtualCard.Password = password;
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
-
-        // Act & Assert
-        await Assert.ThrowsAsync<ValidationException>(() =>
-            virtualCardService.CreateAsync(virtualCard, _cancellationTokenSource.Token));
-    }
-
 
     [Fact]
     public async Task UpdateInvalidIdTestAsync()
@@ -130,7 +113,7 @@ public class VirtualCardServiceTest
         var virtualCard = CreateVirtualCard(0);
 
         // Act
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<ValidationException>(() =>
@@ -143,7 +126,7 @@ public class VirtualCardServiceTest
         // Arrange
         const long id = 1;
 
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<ValidationException>(() =>
@@ -156,7 +139,7 @@ public class VirtualCardServiceTest
         // Arrange
         var virtualCard = CreateVirtualCard();
 
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<EntityNotFoundException>(() =>
@@ -169,7 +152,7 @@ public class VirtualCardServiceTest
         // Arrange
         const long id = 0;
 
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<ValidationException>(() =>
@@ -182,7 +165,7 @@ public class VirtualCardServiceTest
         // Arrange
         const long id = 1;
 
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<EntityNotFoundException>(() =>
@@ -198,7 +181,7 @@ public class VirtualCardServiceTest
         _mockRepository.Setup(x => x.GetByFilterAsync(It.IsAny<VirtualCardFilter>(), _cancellationTokenSource.Token))
             .ReturnsAsync((VirtualCard.Domain.Entities.VirtualCard)null);
 
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act
         var existingEmail = await virtualCardService.IsAvailableEmailAsync(virtualCard.Email, _cancellationTokenSource.Token);
@@ -217,7 +200,7 @@ public class VirtualCardServiceTest
         _mockRepository.Setup(x => x.GetByFilterAsync(filter, _cancellationTokenSource.Token))
             .ReturnsAsync(virtualCard);
 
-        var virtualCardService = new VirtualCardService(_mockRepository.Object, _mockPassword.Object);
+        var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act
         var existingEmail = await virtualCardService.IsAvailableEmailAsync(virtualCard.Email, _cancellationTokenSource.Token);
@@ -231,11 +214,9 @@ public class VirtualCardServiceTest
         return new VirtualCard.Domain.Entities.VirtualCard
         {
             Id = id,
-            Password = "Password@01",
             Email = email,
             Surname = "Surname",
             FirstName = "FirstName",
-            Updated = DateTime.Now,
             Created = DateTime.Now
         };
     }

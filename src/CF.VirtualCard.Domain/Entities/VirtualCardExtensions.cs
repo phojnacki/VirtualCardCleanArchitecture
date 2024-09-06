@@ -15,24 +15,6 @@ public static partial class VirtualCardExtensions
         virtualCard.Created = DateTime.Now;
     }
 
-    public static void SetUpdatedDate(this VirtualCard virtualCard)
-    {
-        virtualCard.Updated = DateTime.Now;
-    }
-
-    public static void ValidatePassword(this VirtualCard virtualCard)
-    {
-        if (string.IsNullOrEmpty(virtualCard.Password))
-            throw new ValidationException("The Password is required.");
-
-        const string regex =
-            @"^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$";
-
-        if (!Regex.IsMatch(virtualCard.Password, regex))
-            throw new ValidationException(
-                "Password must be at least 8 characters and contain at 3 of the following: upper case (A-Z), lower case (a-z), number (0-9) and special character (e.g. !@#$%^&*).");
-    }
-
     public static void ValidateEmail(this VirtualCard virtualCard)
     {
         if (string.IsNullOrEmpty(virtualCard.Email))

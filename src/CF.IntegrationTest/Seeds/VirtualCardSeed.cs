@@ -11,11 +11,9 @@ public class VirtualCardSeed
         await dbContext.VirtualCards.AddAsync(new VirtualCard.Domain.Entities.VirtualCard
         {
             Email = "seed.record@test.com",
-            Password = "Rgrtgr#$543gfregeg",
             FirstName = "Seed",
             Surname = "Seed",
-            Created = DateTime.Now,
-            Updated = DateTime.Now
+            Created = DateTime.Now
         });
 
         await dbContext.SaveChangesAsync();

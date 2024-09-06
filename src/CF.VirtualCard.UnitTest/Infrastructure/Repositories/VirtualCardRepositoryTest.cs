@@ -168,7 +168,6 @@ public class VirtualCardRepositoryTest
 
         //Arrange
         var virtualCard = CreateVirtualCard();
-        virtualCard.Password = null;
 
         var repository = new VirtualCardRepository(context);
         repository.Add(virtualCard);
@@ -221,11 +220,9 @@ public class VirtualCardRepositoryTest
     {
         return new VirtualCard.Domain.Entities.VirtualCard
         {
-            Password = "Password01@",
             Email = "test1@test.com",
             Surname = "Surname1",
             FirstName = "FirstName1",
-            Updated = DateTime.Now,
             Created = DateTime.Now
         };
     }

@@ -164,9 +164,7 @@ public class VirtualCardFacadeTest
         {
             Email = "test1@test.com",
             Surname = "Surname",
-            FirstName = "First Name",
-            Password = "P@013333343",
-            ConfirmPassword = "P@013333343"
+            FirstName = "First Name"
         };
     }
 
@@ -175,7 +173,6 @@ public class VirtualCardFacadeTest
         return new VirtualCard.Domain.Entities.VirtualCard
         {
             Id = id,
-            Password = "P@013333343",
             Email = "test1@test.com",
             Surname = "Surname",
             FirstName = "First Name"

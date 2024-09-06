@@ -29,10 +29,6 @@ public class VirtualCardContext(DbContextOptions<VirtualCardContext> options)
             .HasMaxLength(100)
             .IsRequired();
 
-        model.Property(x => x.Password)
-            .HasMaxLength(2000)
-            .IsRequired();
-
         model.Property(x => x.Surname)
             .HasMaxLength(100)
             .IsRequired();

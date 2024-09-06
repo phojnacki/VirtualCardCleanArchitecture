@@ -20,7 +20,6 @@ public class VirtualCardProfileTest
         {
             Surname = "Dickinson",
             FirstName = "Bruce",
-            Password = "Blah@1234!",
             Email = "maiden@metal.com"
         };
 
@@ -32,7 +31,6 @@ public class VirtualCardProfileTest
         //Assert
         Assert.Equal(virtualCardRequestDto.FirstName, virtualCard.FirstName);
         Assert.Equal(virtualCardRequestDto.Surname, virtualCard.Surname);
-        Assert.Equal(virtualCardRequestDto.Password, virtualCard.Password);
         Assert.Equal(virtualCardRequestDto.Email, virtualCard.Email);
     }
 
@@ -46,7 +44,6 @@ public class VirtualCardProfileTest
             FirstName = "Bruce",
             Email = "maiden@metal.com",
             Created = DateTime.Now,
-            Updated = DateTime.Now,
             Id = 1
         };
 
@@ -75,7 +72,6 @@ public class VirtualCardProfileTest
                 FirstName = "Bruce",
                 Email = "maiden@metal.com",
                 Created = DateTime.Now,
-                Updated = DateTime.Now,
                 Id = 1
             }
         };
