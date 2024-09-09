@@ -94,9 +94,9 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
         await virtualCardRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<bool> IsAvailableCardNumberAsync(string cardnumber, CancellationToken cancellationToken)
+    public async Task<bool> IsAvailableCardNumberAsync(CardNumber cardnumber, CancellationToken cancellationToken)
     {
-        var filter = new VirtualCardFilter { CardNumber = cardnumber };
+        var filter = new VirtualCardFilter { CardNumber = cardnumber.Value };
         var existingCardNumber = await virtualCardRepository.GetByFilterAsync(filter, cancellationToken);
         return existingCardNumber is null;
     }
@@ -106,8 +106,5 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
         virtualCard.ValidateFirstName();
 
         virtualCard.ValidateSurname();
-
-        virtualCard.ValidateCardNumber();
-
     }
 }

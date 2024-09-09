@@ -8,6 +8,8 @@ public class VirtualCardTest
 {
 
     [Theory]
+    [InlineData(null)]
+    [InlineData("")]
     [InlineData("123")]
     [InlineData("123 123 123 123")]
     [InlineData("1234 1234 1234")]
@@ -18,49 +20,28 @@ public class VirtualCardTest
     public void InvalidCardNumberFormatTest(string cardnumber)
     {
         //Arrange
-        var virtualCard = new VirtualCard.Domain.Entities.VirtualCard
-        {
-            CardNumber = cardnumber
-        };
-
-        const string invalidCardNumberFormatErrorMessage = "The CardNumber is not a valid e-mail address.";
-
+        
         //Act
-        var exception = Assert.Throws<ValidationException>(virtualCard.ValidateCardNumber);
+        var exception = Assert.Throws<CardNumberInvalidException>(() => 
+            new VirtualCard.Domain.Entities.VirtualCard
+		    {
+			    CardNumber = new CardNumber(cardnumber)
+		    });
 
         //Assert
-        Assert.Equal(invalidCardNumberFormatErrorMessage, exception.Message);
-    }
-
-    [Fact]
-    public void InvalidCardNumberRequiredTest()
-    {
-        //Arrange
-        var virtualCard = new VirtualCard.Domain.Entities.VirtualCard
-        {
-            CardNumber = string.Empty
-        };
-
-        const string invalidCardNumberFormatErrorMessage = "The CardNumber is required.";
-
-        //Act
-        var exception = Assert.Throws<ValidationException>(virtualCard.ValidateCardNumber);
-
-        //Assert
-        Assert.Equal(invalidCardNumberFormatErrorMessage, exception.Message);
     }
 
     [Fact]
     public void ValidCardNumberTest()
     {
         //Arrange
-        var virtualCard = new VirtualCard.Domain.Entities.VirtualCard
-        {
-            CardNumber = "3425 3642 7853 4536"
-        };
+
 
         //Act
-        var exception = Record.Exception(virtualCard.ValidateCardNumber);
+        var exception = Record.Exception(() => new VirtualCard.Domain.Entities.VirtualCard
+        {
+            CardNumber = new CardNumber("3425 3642 7853 4536")
+        });
 
         //Assert
         Assert.Null(exception);

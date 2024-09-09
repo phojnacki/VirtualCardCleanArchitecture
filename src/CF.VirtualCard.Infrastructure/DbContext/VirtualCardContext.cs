@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CF.VirtualCard.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CF.VirtualCard.Infrastructure.DbContext;
 
@@ -18,12 +20,12 @@ public class VirtualCardContext(DbContextOptions<VirtualCardContext> options)
 
         model.ToTable("VirtualCard");
 
-        model.Property(x => x.CardNumber)
-            .HasMaxLength(19)
-            .IsRequired();
-
-        model.HasIndex(x => x.CardNumber)
-            .IsUnique();
+        model.OwnsOne(x => x.CardNumber);
+        //    , cardNumber =>
+        //{
+        //    cardNumber.Property(c => c.Value).HasColumnName("CardNumber").IsRequired();
+        //    cardNumber.HasIndex(c => c.Value);
+        //});
 
         model.Property(x => x.FirstName)
             .HasMaxLength(100)

@@ -1,6 +1,8 @@
-﻿namespace CF.VirtualCard.Domain.Entities;
+﻿using CF.VirtualCard.Domain.Ddd;
 
-public class BillingCycle
+namespace CF.VirtualCard.Domain.Entities;
+
+public class BillingCycle : IAggregateRoot
 {
 	public long Id { get; private set; }
 	public DateTime From { get; private set; }

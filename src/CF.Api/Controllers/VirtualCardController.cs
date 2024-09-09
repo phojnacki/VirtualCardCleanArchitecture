@@ -136,4 +136,17 @@ public class VirtualCardController(
             return BadRequest(e.Message);
         }
     }
+
+	[HttpPost("withdraw")]
+	[SwaggerResponse((int)HttpStatusCode.BadRequest, "Invalid Request.")]
+	[SwaggerResponse((int)HttpStatusCode.Created, "Withdrawal has been succeeded.")]
+	public async Task<IActionResult> Withdraw([FromBody] WithdrawRequestDto withdrawRequestDto,
+		CancellationToken cancellationToken)
+	{
+		if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        //var id = await virtualCardFacade.CreateAsync(virtualCardRequestDto, cancellationToken);
+
+        return null;// CreatedAtAction(nameof(Get), new { id }, new { id });
+	}
 }

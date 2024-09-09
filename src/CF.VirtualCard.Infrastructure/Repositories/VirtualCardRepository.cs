@@ -75,7 +75,7 @@ public class VirtualCardRepository(VirtualCardContext context)
             query = query.Where(x => EF.Functions.Like(x.Surname, $"%{filter.Surname}%"));
 
         if (!string.IsNullOrWhiteSpace(filter.CardNumber))
-            query = query.Where(x => x.CardNumber == filter.CardNumber);
+            query = query.Where(x => x.CardNumber.Value == filter.CardNumber);
 
         return query;
     }

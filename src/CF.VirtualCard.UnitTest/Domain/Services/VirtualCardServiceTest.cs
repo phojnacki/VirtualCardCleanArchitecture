@@ -1,4 +1,5 @@
-﻿using CF.VirtualCard.Domain.Exceptions;
+﻿using CF.VirtualCard.Domain.Entities;
+using CF.VirtualCard.Domain.Exceptions;
 using CF.VirtualCard.Domain.Models;
 using CF.VirtualCard.Domain.Repositories;
 using CF.VirtualCard.Domain.Services;
@@ -98,7 +99,7 @@ public class VirtualCardServiceTest
     {
         // Arrange
         var virtualCard = CreateVirtualCard();
-        virtualCard.CardNumber = cardnumber;
+        virtualCard.CardNumber = new CardNumber(cardnumber);
         var virtualCardService = new VirtualCardService(_mockRepository.Object);
 
         // Act & Assert
@@ -196,7 +197,7 @@ public class VirtualCardServiceTest
         // Arrange
         var virtualCard = CreateVirtualCard();
 
-        var filter = new VirtualCardFilter { CardNumber = virtualCard.CardNumber };
+        var filter = new VirtualCardFilter { CardNumber = virtualCard.CardNumber.Value };
         _mockRepository.Setup(x => x.GetByFilterAsync(filter, _cancellationTokenSource.Token))
             .ReturnsAsync(virtualCard);
 
@@ -214,7 +215,7 @@ public class VirtualCardServiceTest
         return new VirtualCard.Domain.Entities.VirtualCard
         {
             Id = id,
-            CardNumber = cardnumber,
+            CardNumber = new CardNumber(cardnumber),
             Surname = "Surname",
             FirstName = "FirstName",
             ExpiryDate = DateTime.Now

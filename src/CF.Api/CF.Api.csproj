@@ -21,8 +21,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\CF.VirtualCard.Infrastructure\CF.VirtualCard.Infrastructure.csproj" />
 	  <ProjectReference Include="..\CF.Migrations\CF.Migrations.csproj" />
+	  <ProjectReference Include="..\CF.VirtualCard.Infrastructure\CF.VirtualCard.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

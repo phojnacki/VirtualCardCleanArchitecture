@@ -31,7 +31,7 @@ public class VirtualCardProfileTest
         //Assert
         Assert.Equal(virtualCardRequestDto.FirstName, virtualCard.FirstName);
         Assert.Equal(virtualCardRequestDto.Surname, virtualCard.Surname);
-        Assert.Equal(virtualCardRequestDto.CardNumber, virtualCard.CardNumber);
+        Assert.Equal(virtualCardRequestDto.CardNumber, virtualCard.CardNumber.Value);
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class VirtualCardProfileTest
         {
             Surname = "Dickinson",
             FirstName = "Bruce",
-            CardNumber = "maiden@metal.com",
+            CardNumber = new CardNumber("1234-1234-1234-1234"),
             ExpiryDate = DateTime.Now,
             Id = 1
         };
@@ -55,7 +55,7 @@ public class VirtualCardProfileTest
         //Arrange
         Assert.Equal(virtualCard.FirstName, virtualCardResponseDto.FirstName);
         Assert.Equal(virtualCard.Surname, virtualCardResponseDto.Surname);
-        Assert.Equal(virtualCard.CardNumber, virtualCardResponseDto.CardNumber);
+        Assert.Equal(virtualCard.CardNumber.Value, virtualCardResponseDto.CardNumber);
         Assert.Equal(virtualCard.Id, virtualCardResponseDto.Id);
         Assert.Equal(virtualCard.GetFullName(), virtualCardResponseDto.FullName);
     }
@@ -70,7 +70,7 @@ public class VirtualCardProfileTest
             {
                 Surname = "Dickinson",
                 FirstName = "Bruce",
-                CardNumber = "maiden@metal.com",
+                CardNumber = new CardNumber("2345-3456-4567-5678"),
                 ExpiryDate = DateTime.Now,
                 Id = 1
             }
@@ -93,7 +93,7 @@ public class VirtualCardProfileTest
         //Assert
         Assert.Equal(virtualCardList.First().FirstName, virtualCardResponseDtoList.First().FirstName);
         Assert.Equal(virtualCardList.First().Surname, virtualCardResponseDtoList.First().Surname);
-        Assert.Equal(virtualCardList.First().CardNumber, virtualCardResponseDtoList.First().CardNumber);
+        Assert.Equal(virtualCardList.First().CardNumber.Value, virtualCardResponseDtoList.First().CardNumber);
         Assert.Equal(virtualCardList.First().Id, virtualCardResponseDtoList.First().Id);
         Assert.Equal(virtualCardList.First().GetFullName(), virtualCardResponseDtoList.First().FullName);
         Assert.Equal(1, virtualCardResponseDtoPagination.TotalPages);

@@ -15,15 +15,6 @@ public static partial class VirtualCardExtensions
         virtualCard.ExpiryDate = DateTime.Now.AddYears(1);
     }
 
-    public static void ValidateCardNumber(this VirtualCard virtualCard)
-    {
-        if (string.IsNullOrEmpty(virtualCard.CardNumber))
-            throw new ValidationException("The CardNumber is required.");
-
-        if (!CardNumberValidatorRegex().IsMatch(virtualCard.CardNumber))
-            throw new ValidationException("The CardNumber contains not valid digits separated by spaces and dashes.");
-    }
-
     public static void ValidateSurname(this VirtualCard virtualCard)
     {
         if (string.IsNullOrEmpty(virtualCard.Surname))
@@ -44,6 +35,5 @@ public static partial class VirtualCardExtensions
                 "The First Name must be a string with a minimum length of 2 and a maximum length of 100.");
     }
 
-    [GeneratedRegex(@"^(?:\d[ -]*?){13,19}$")]
-    private static partial Regex CardNumberValidatorRegex();
+
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CF.VirtualCard.Application.Dtos;
 using CF.VirtualCard.Application.Facades;
+using CF.VirtualCard.Domain.Entities;
 using CF.VirtualCard.Domain.Models;
 using CF.VirtualCard.Domain.Services.Interfaces;
 using Moq;
@@ -173,7 +174,7 @@ public class VirtualCardFacadeTest
         return new VirtualCard.Domain.Entities.VirtualCard
         {
             Id = id,
-            CardNumber = "2345-1234-2345-3456",
+            CardNumber = new CardNumber("2345-1234-2345-3456"),
             Surname = "Surname",
             FirstName = "First Name"
         };

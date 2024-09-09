@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using CF.VirtualCard.Domain.Entities;
 using CF.VirtualCard.Domain.Models;
 using CF.VirtualCard.Infrastructure.DbContext;
 using CF.VirtualCard.Infrastructure.Repositories;
@@ -25,7 +26,7 @@ public class VirtualCardRepositoryTest
         //Arrange
         var virtualCardOne = CreateVirtualCard();
         var virtualCardTwo = CreateVirtualCard();
-        virtualCardTwo.CardNumber = "cardnumber2@test.com";
+        virtualCardTwo.CardNumber = new CardNumber("1234 2345 3546 5678");
 
         //Act
         var repository = new VirtualCardRepository(context);
@@ -55,13 +56,13 @@ public class VirtualCardRepositoryTest
         repository.Add(virtualCardOne);
         await repository.SaveChangesAsync(_cancellationTokenSource.Token);
 
-        var filter = new VirtualCardFilter { CardNumber = "test1@test.com" };
+        var filter = new VirtualCardFilter { CardNumber = "1234 1234 1234 1234" };
 
         //Act
         var result = await repository.GetByFilterAsync(filter, _cancellationTokenSource.Token);
 
         //Assert
-        Assert.Equal("test1@test.com", result.CardNumber);
+        Assert.Equal("1234123412341234", result.CardNumber.Value);
     }
 
     [Fact]
@@ -220,7 +221,7 @@ public class VirtualCardRepositoryTest
     {
         return new VirtualCard.Domain.Entities.VirtualCard
         {
-            CardNumber = "test1@test.com",
+            CardNumber = new CardNumber("3456-4567-5677-1324"),
             Surname = "Surname1",
             FirstName = "FirstName1",
             ExpiryDate = DateTime.Now
