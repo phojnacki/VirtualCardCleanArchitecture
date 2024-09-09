@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CF.VirtualCard.Domain.Exceptions
 {
-	public class CardNumberInvalidException : Exception
+	public class CardNumberInvalidException(string message) : ValidationException(message)
 	{
 	}
 }

@@ -68,11 +68,21 @@ public class VirtualCardController(
     public async Task<IActionResult> Post([FromBody] VirtualCardRequestDto virtualCardRequestDto,
         CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        try
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        var id = await virtualCardFacade.CreateAsync(virtualCardRequestDto, cancellationToken);
+            var id = await virtualCardFacade.CreateAsync(virtualCardRequestDto, cancellationToken);
 
-        return CreatedAtAction(nameof(Get), new { id }, new { id });
+            return CreatedAtAction(nameof(Get), new { id }, new { id });
+        }
+        catch (Exception e) when (e.InnerException is ValidationException)
+        {
+            logger.LogError(e.InnerException, "Validation Exception. CorrelationId: {correlationId}",
+                correlationContext.CorrelationContext.CorrelationId);
+
+            return BadRequest(e.InnerException.Message);
+        }
     }
 
     [HttpPut("{id}")]

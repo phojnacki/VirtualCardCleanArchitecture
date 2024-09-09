@@ -20,12 +20,11 @@ public class VirtualCardContext(DbContextOptions<VirtualCardContext> options)
 
         model.ToTable("VirtualCard");
 
-        model.OwnsOne(x => x.CardNumber);
-        //    , cardNumber =>
-        //{
-        //    cardNumber.Property(c => c.Value).HasColumnName("CardNumber").IsRequired();
-        //    cardNumber.HasIndex(c => c.Value);
-        //});
+        model.OwnsOne(x => x.CardNumber, cardNumberBuilder =>
+        {
+			cardNumberBuilder.Property(c => c.Value).HasColumnName("CardNumber").IsRequired();
+			cardNumberBuilder.HasIndex(c => c.Value);
+        });
 
         model.Property(x => x.FirstName)
             .HasMaxLength(100)

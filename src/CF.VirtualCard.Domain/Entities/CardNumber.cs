@@ -8,12 +8,12 @@ namespace CF.VirtualCard.Domain.Entities
 	{
 		public string Value { get; private set; }
 
-		public CardNumber(string cardNumber)
+		public CardNumber(string value)
 		{
-			Value = RemoveNonDigits(cardNumber);
+			Value = RemoveNonDigits(value);
 
 			if (Value.Length != 16) {
-				throw new CardNumberInvalidException();
+				throw new CardNumberInvalidException("Card number is not a valid 16 digits with optional spaces or dashes.");
 			}
 		}
 

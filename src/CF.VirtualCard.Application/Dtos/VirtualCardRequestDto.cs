@@ -5,7 +5,7 @@ namespace CF.VirtualCard.Application.Dtos;
 public record VirtualCardRequestDto
 {
     [Required(ErrorMessage = "The CardNumber field is required.")]
-	[StringLength(19, MinimumLength = 16, ErrorMessage = "The CardNumber field must be between 16 and 19 characters.")]
+	[StringLength(19, MinimumLength = 19, ErrorMessage = "The CardNumber field must be between 16 and 19 characters.")]
 	[Display(Name = "CardNumber")]
     public string CardNumber { get; set; }
 
