@@ -18,4 +18,8 @@
     <ProjectReference Include="..\CF.VirtualCard.Infrastructure\CF.VirtualCard.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

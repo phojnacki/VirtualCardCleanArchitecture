@@ -7,4 +7,6 @@ public record VirtualCardResponseDto
     public string FirstName { get; set; }
     public string Surname { get; set; }
     public string FullName { get; set; }
+    public DateTime ExpiryDate { get; set; }
+    public decimal Funds { get; set; }
 }

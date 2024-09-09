@@ -8,30 +8,47 @@ public class VirtualCardContext(DbContextOptions<VirtualCardContext> options)
     : Microsoft.EntityFrameworkCore.DbContext(options)
 {
     public DbSet<Domain.Entities.VirtualCard> VirtualCards { get; set; }
+	public DbSet<Domain.Entities.BillingCycle> BillingCycle { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         VirtualCardModelBuilder(modelBuilder);
-    }
+	}
 
     private static void VirtualCardModelBuilder(ModelBuilder modelBuilder)
     {
-        var model = modelBuilder.Entity<Domain.Entities.VirtualCard>();
+        var cardBuilder = modelBuilder.Entity<Domain.Entities.VirtualCard>();
 
-        model.ToTable("VirtualCard");
+        cardBuilder.ToTable("VirtualCard");
 
-        model.OwnsOne(x => x.CardNumber, cardNumberBuilder =>
+        cardBuilder.OwnsOne(vc => vc.CardNumber, cardNumberBuilder =>
         {
-			cardNumberBuilder.Property(c => c.Value).HasColumnName("CardNumber").IsRequired();
-			cardNumberBuilder.HasIndex(c => c.Value);
+			cardNumberBuilder.Property(n => n.Value).HasColumnName("CardNumber").IsRequired().HasMaxLength(19);
+			cardNumberBuilder.HasIndex(n => n.Value);
         });
 
-        model.Property(x => x.FirstName)
+        cardBuilder.Property(vc => vc.FirstName)
             .HasMaxLength(100)
             .IsRequired();
 
-        model.Property(x => x.Surname)
+        cardBuilder.Property(vc => vc.Surname)
             .HasMaxLength(100)
             .IsRequired();
-    }
+
+		var cycleBuilder = modelBuilder.Entity<Domain.Entities.BillingCycle>();
+
+		cycleBuilder.ToTable("BillingCycle");
+
+		cycleBuilder.Property(bc => bc.From)
+			.IsRequired();
+
+		cycleBuilder.Property(bc => bc.To)
+			.IsRequired();
+
+		cycleBuilder
+			.Property(x => x.VirtualCardId)
+			.IsRequired();
+			//.HasConversion(x => x.Id, id => CatalogId.Of(id));
+
+	}
 }

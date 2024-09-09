@@ -147,16 +147,76 @@ public class VirtualCardController(
         }
     }
 
-	[HttpPost("withdraw")]
+	[HttpPost("{id}/withdraw")]
 	[SwaggerResponse((int)HttpStatusCode.BadRequest, "Invalid Request.")]
 	[SwaggerResponse((int)HttpStatusCode.Created, "Withdrawal has been succeeded.")]
-	public async Task<IActionResult> Withdraw([FromBody] WithdrawRequestDto withdrawRequestDto,
+	public async Task<IActionResult> Withdraw(long id, [FromBody] WithdrawRequestDto withdrawRequestDto,
 		CancellationToken cancellationToken)
 	{
-		if (!ModelState.IsValid) return BadRequest(ModelState);
+        try {
 
-        //var id = await virtualCardFacade.CreateAsync(virtualCardRequestDto, cancellationToken);
+		    if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        return null;// CreatedAtAction(nameof(Get), new { id }, new { id });
+            await virtualCardFacade.WithdrawAsync(id, withdrawRequestDto.Amount, cancellationToken);
+
+            return NoContent();
+	    }
+        catch (EntityNotFoundException e)
+        {
+            logger.LogError(e, "Entity Not Found Exception. CorrelationId: {correlationId}",
+                correlationContext.CorrelationContext.CorrelationId);
+
+            return NotFound();
+        }
+        catch (ValidationException e)
+        {
+            logger.LogError(e, "Validation Exception. CorrelationId: {correlationId}",
+                correlationContext.CorrelationContext.CorrelationId);
+
+            return BadRequest(e.Message);
+        }
+		catch (Exception e) when (e.InnerException is ValidationException)
+		{
+			logger.LogError(e.InnerException, "Validation Exception. CorrelationId: {correlationId}",
+				correlationContext.CorrelationContext.CorrelationId);
+
+			return BadRequest(e.InnerException.Message);
+		}
+	}
+
+	[HttpPost("{id}/openBillingCycle")]
+	[SwaggerResponse((int)HttpStatusCode.BadRequest, "Invalid Request.")]
+	[SwaggerResponse((int)HttpStatusCode.Created, "Withdrawal has been succeeded.")]
+	public async Task<IActionResult> OpenBillingCycle(long id, CancellationToken cancellationToken)
+	{
+		try
+		{
+			if (!ModelState.IsValid) return BadRequest(ModelState);
+
+			//await virtualCardFacade.WithdrawAsync(id, withdrawRequestDto.Amount, cancellationToken);
+
+			return NoContent();
+		}
+		catch (EntityNotFoundException e)
+		{
+			logger.LogError(e, "Entity Not Found Exception. CorrelationId: {correlationId}",
+				correlationContext.CorrelationContext.CorrelationId);
+
+			return NotFound();
+		}
+		catch (ValidationException e)
+		{
+			logger.LogError(e, "Validation Exception. CorrelationId: {correlationId}",
+				correlationContext.CorrelationContext.CorrelationId);
+
+			return BadRequest(e.Message);
+		}
+		catch (Exception e) when (e.InnerException is ValidationException)
+		{
+			logger.LogError(e.InnerException, "Validation Exception. CorrelationId: {correlationId}",
+				correlationContext.CorrelationContext.CorrelationId);
+
+			return BadRequest(e.InnerException.Message);
+		}
 	}
 }

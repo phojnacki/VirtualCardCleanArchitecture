@@ -10,4 +10,6 @@ public interface IVirtualCardService
     Task UpdateAsync(long id, Entities.VirtualCard virtualCard, CancellationToken cancellationToken);
     Task<long> CreateAsync(Entities.VirtualCard virtualCard, CancellationToken cancellationToken);
     Task DeleteAsync(long id, CancellationToken cancellationToken);
+    Task WithdrawAsync(long id, decimal amount, CancellationToken cancellationToken);
+    Task OpenBillingCycle(long id, CancellationToken cancellationToken);
 }

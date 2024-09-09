@@ -52,4 +52,9 @@ public class VirtualCardFacade(IVirtualCardService virtualCardService, IMapper m
     {
         await virtualCardService.DeleteAsync(id, cancellationToken);
     }
+
+	public async Task WithdrawAsync(long id, decimal amount, CancellationToken cancellationToken)
+	{
+		await virtualCardService.WithdrawAsync(id, amount, cancellationToken);
+	}
 }

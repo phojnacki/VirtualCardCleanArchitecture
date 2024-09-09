@@ -7,7 +7,7 @@ using CF.VirtualCard.Domain.Services.Interfaces;
 namespace CF.VirtualCard.Domain.Services;
 
 public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
-    : IVirtualCardService
+	: IVirtualCardService
 {
     public async Task<Pagination<Entities.VirtualCard>> GetListByFilterAsync(VirtualCardFilter filter,
         CancellationToken cancellationToken)
@@ -77,9 +77,12 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
         var isAvailableCardNumber = await IsAvailableCardNumberAsync(virtualCard.CardNumber, cancellationToken);
         if (!isAvailableCardNumber) throw new ValidationException("CardNumber is not available.");
 
-        virtualCard.SetExpiryDate();
+        virtualCard.OpenBillingCycle();
+
         virtualCardRepository.Add(virtualCard);
         await virtualCardRepository.SaveChangesAsync(cancellationToken);
+
+
 
         return virtualCard.Id;
     }
@@ -101,10 +104,41 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
         return existingCardNumber is null;
     }
 
-    private static void Validate(Entities.VirtualCard virtualCard)
+	public async Task WithdrawAsync(long id, decimal amount, CancellationToken cancellationToken)
+	{
+		if (id <= 0) throw new ValidationException("Id is invalid.");
+
+		if (amount <= 0)
+			throw new ValidationException("Amount should be a positive value.");
+
+		var virtualCard = await virtualCardRepository.GetByIdAsync(id, cancellationToken) ??
+					 throw new EntityNotFoundException(id);
+
+        if (virtualCard.CurrentBillingCycle is null)
+            throw new ValidationException("No current billing cycle set for virtual card.");
+
+        virtualCard.CurrentBillingCycle.Withdraw(amount);
+		
+		await virtualCardRepository.SaveChangesAsync(cancellationToken);
+	}
+
+	public async Task OpenBillingCycle(long virtualCardId, CancellationToken cancellationToken)
+	{
+		if (virtualCardId <= 0) throw new ValidationException("Id is invalid.");
+
+		var virtualCard = await virtualCardRepository.GetByIdAsync(virtualCardId, cancellationToken) ??
+					 throw new EntityNotFoundException(virtualCardId);
+
+		virtualCard.OpenBillingCycle();
+
+		await virtualCardRepository.SaveChangesAsync(cancellationToken);
+	}
+
+	private static void Validate(Entities.VirtualCard virtualCard)
     {
         virtualCard.ValidateFirstName();
 
         virtualCard.ValidateSurname();
     }
+
 }

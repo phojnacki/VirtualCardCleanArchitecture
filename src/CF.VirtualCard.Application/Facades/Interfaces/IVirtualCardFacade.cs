@@ -10,4 +10,5 @@ public interface IVirtualCardFacade
     Task<long> CreateAsync(VirtualCardRequestDto virtualCardRequestDto, CancellationToken cancellationToken);
     Task UpdateAsync(long id, VirtualCardRequestDto virtualCardRequestDto, CancellationToken cancellationToken);
     Task DeleteAsync(long id, CancellationToken cancellationToken);
+    Task WithdrawAsync(long id, decimal amount, CancellationToken cancellationToken);
 }

@@ -1,6 +1,12 @@
-﻿namespace CF.Api.Controllers
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CF.Api.Controllers
 {
-	public class WithdrawRequestDto
+	public record WithdrawRequestDto
 	{
+		[Required(ErrorMessage = "The WithdrawalAmount field is required.")]
+		[Display(Name = "WithdrawalAmount")]
+		public decimal Amount { get; set; }
+
 	}
 }

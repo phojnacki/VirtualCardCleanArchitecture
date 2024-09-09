@@ -10,11 +10,6 @@ public static partial class VirtualCardExtensions
         return $"{virtualCard.FirstName} {virtualCard.Surname}";
     }
 
-    public static void SetExpiryDate(this VirtualCard virtualCard)
-    {
-        virtualCard.ExpiryDate = DateTime.Now.AddYears(1);
-    }
-
     public static void ValidateSurname(this VirtualCard virtualCard)
     {
         if (string.IsNullOrEmpty(virtualCard.Surname))

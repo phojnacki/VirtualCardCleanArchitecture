@@ -9,6 +9,15 @@ public class VirtualCard : IAggregateRoot
     public CardNumber CardNumber { get; set; } 
     public string FirstName { get; set; }
     public string Surname { get; set; }
-    //public decimal Limit { get; set; }
-    //public bool IsActive { get; set; }
+    public BillingCycle CurrentBillingCycle { get; set; }
+
+	public VirtualCard()
+	{
+		ExpiryDate = DateTime.Now.AddYears(1);
+	}
+
+    public void OpenBillingCycle()
+    {
+        CurrentBillingCycle = new BillingCycle(Id);
+    }
 }

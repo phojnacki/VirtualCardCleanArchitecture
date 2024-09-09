@@ -20,7 +20,9 @@ public class VirtualCardProfile : Profile
 
         CreateMap<Domain.Entities.VirtualCard, VirtualCardResponseDto>()
             .ForMember(dest => dest.FullName, opt => opt.Ignore())
-            .AfterMap((source, destination) => { destination.FullName = source.GetFullName(); });
+            .AfterMap((source, destination) => { destination.FullName = source.GetFullName(); })
+            .ForMember(dest => dest.Funds, opt => opt.Ignore())
+            .AfterMap((source, destination) => { destination.Funds = source.CurrentBillingCycle.CurrentBalance; });
 
         CreateMap<VirtualCardFilterDto, VirtualCardFilter>();
 

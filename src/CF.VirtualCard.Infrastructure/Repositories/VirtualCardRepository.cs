@@ -17,10 +17,16 @@ public class VirtualCardRepository(VirtualCardContext context)
         return await query.CountAsync(cancellationToken);
     }
 
-    public async Task<Domain.Entities.VirtualCard> GetByFilterAsync(VirtualCardFilter filter,
+	public override async Task<Domain.Entities.VirtualCard> GetByIdAsync(long id, CancellationToken cancellationToken)
+	{
+		return await DbContext.VirtualCards.Include(vc => vc.CurrentBillingCycle)
+			.FirstOrDefaultAsync(vc => vc.Id == id);
+	}
+
+	public async Task<Domain.Entities.VirtualCard> GetByFilterAsync(VirtualCardFilter filter,
         CancellationToken cancellationToken)
     {
-        var query = DbContext.VirtualCards.AsQueryable();
+        var query = DbContext.VirtualCards.Include(vc => vc.CurrentBillingCycle).AsQueryable();
 
         query = ApplyFilter(filter, query);
 
