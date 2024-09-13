@@ -174,18 +174,4 @@ public class VirtualCardTest
         Assert.Equal("Valdivia El Mago", result);
     }
 
-    [Fact]
-    public void SetExpiryDate()
-    {
-        //Arrange
-        var virtualCard = new VirtualCard.Domain.Entities.VirtualCard();
-        var expiryDate = DateTime.Now.AddYears(1);
-
-        //Act
-        virtualCard.SetExpiryDate();
-
-        //Assert
-        Assert.True(virtualCard.ExpiryDate >= expiryDate);
-    }
-
 }

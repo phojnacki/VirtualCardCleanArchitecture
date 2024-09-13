@@ -9,4 +9,5 @@ public record VirtualCardResponseDto
     public string FullName { get; set; }
     public DateTime ExpiryDate { get; set; }
     public decimal Funds { get; set; }
+    public bool IsActive { get; set; }
 }

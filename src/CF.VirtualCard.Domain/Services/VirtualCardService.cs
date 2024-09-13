@@ -117,7 +117,7 @@ public class VirtualCardService(IVirtualCardRepository virtualCardRepository)
         if (virtualCard.CurrentBillingCycle is null)
             throw new ValidationException("No current billing cycle set for virtual card.");
 
-        virtualCard.CurrentBillingCycle.Withdraw(amount);
+        virtualCard.Withdraw(amount);
 		
 		await virtualCardRepository.SaveChangesAsync(cancellationToken);
 	}
