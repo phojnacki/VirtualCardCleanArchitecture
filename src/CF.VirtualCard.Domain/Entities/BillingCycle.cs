@@ -7,6 +7,7 @@ public class BillingCycle
 {
 	private static readonly int WithdrawalsLimit = 10;
 	private static readonly decimal CreditLimit = 700;
+	private static readonly decimal InterestRate = 0.10m;
 
 	public long Id { get; private set; }
 	public DateTime From { get; private set; }
@@ -14,6 +15,8 @@ public class BillingCycle
 	public long VirtualCardId { get; private set; }
 	public decimal CurrentBalance { get; private set; }
 	public int WithdrawalsCount { get; private set; }
+	public decimal Interest { get; private set; }
+	
 
 	public BillingCycle(long virtualCardId)
 	{
@@ -37,6 +40,7 @@ public class BillingCycle
 
 		CurrentBalance -= amount;
 		WithdrawalsCount++;
+		Interest += amount * InterestRate;
 	}
 
 	public void Deposit(decimal amount)

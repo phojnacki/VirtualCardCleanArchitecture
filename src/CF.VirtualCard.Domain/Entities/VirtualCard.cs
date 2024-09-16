@@ -24,6 +24,11 @@ public class VirtualCard : IAggregateRoot
         CurrentBillingCycle = new BillingCycle(Id);
     }
 
+    public void CloseBillingCycle()
+    { 
+        
+    }
+
     public void Withdraw(decimal amount)
     {
         if (IsActive)

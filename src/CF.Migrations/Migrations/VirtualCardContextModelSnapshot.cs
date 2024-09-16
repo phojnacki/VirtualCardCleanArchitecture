@@ -36,6 +36,9 @@ namespace CF.Migrations.Migrations
                     b.Property<DateTime>("From")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("Interest")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("To")
                         .HasColumnType("datetime2");
 

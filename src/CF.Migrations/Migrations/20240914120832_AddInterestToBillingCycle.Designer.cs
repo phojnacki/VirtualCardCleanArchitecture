@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CF.Migrations.Migrations
 {
     [DbContext(typeof(VirtualCardContext))]
-    [Migration("20240909134236_BillingCycleCreate")]
-    partial class BillingCycleCreate
+    [Migration("20240914120832_AddInterestToBillingCycle")]
+    partial class AddInterestToBillingCycle
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,9 @@ namespace CF.Migrations.Migrations
 
                     b.Property<DateTime>("From")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Interest")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("To")
                         .HasColumnType("datetime2");
@@ -71,6 +74,9 @@ namespace CF.Migrations.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Surname")
                         .IsRequired()
