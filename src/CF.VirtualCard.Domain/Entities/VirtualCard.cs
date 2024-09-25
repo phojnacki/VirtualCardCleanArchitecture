@@ -21,7 +21,7 @@ public class VirtualCard : IAggregateRoot
 
     public void OpenBillingCycle()
     {
-        CurrentBillingCycle = new BillingCycle(Id);
+        CurrentBillingCycle = new BillingCycle(virtualCardId: Id);
     }
 
     public void CloseBillingCycle()

@@ -37,11 +37,9 @@ builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Le
 builder.Services.AddResponseCompression(options => { options.Providers.Add<GzipCompressionProvider>(); });
 builder.Services.AddDbContext<VirtualCardContext>(options =>
 {
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")
-        .Replace("ENV_DB_USER", Environment.GetEnvironmentVariable("ENV_DB_USER"))
-		.Replace("ENV_DB_SERVER", Environment.GetEnvironmentVariable("ENV_DB_SERVER"))
-		.Replace("ENV_DB_PASSWORD", Environment.GetEnvironmentVariable("ENV_DB_PASSWORD")),
-      a => { a.MigrationsAssembly("CF.Migrations"); });
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")
+        .Replace("ENV_DB_CONNECTION_STRING", Environment.GetEnvironmentVariable("ENV_DB_CONNECTION_STRING")),
+      a => { a.MigrationsAssembly("CF.Migrations"); }); ;
 });
 
 AddNLog();

@@ -6,9 +6,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ENV_DB_SERVER": "DESKTOP-I08K3A5\\\\SQLEXPRESS",
-        "ENV_DB_USER": "myapp",
-        "ENV_DB_PASSWORD": "myapp"
+        "ENV_DB_CONNECTION_STRING": "Data Source=DESKTOP-I08K3A5\\\\SQLEXPRESS;Initial Catalog=CF;User ID=myapp;Password=myapp;TrustServerCertificate=True"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7242;http://localhost:5242"

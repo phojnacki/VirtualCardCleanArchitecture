@@ -46,7 +46,7 @@ public class BillingCycle
 	public void Deposit(decimal amount)
 	{
 		if (amount <= 0)
-			throw new ValidationException("Withdrawal amount must be greater than zero.");
+			throw new ValidationException("Deposit amount must be greater than zero.");
 		
 		CurrentBalance += amount;
 	}
